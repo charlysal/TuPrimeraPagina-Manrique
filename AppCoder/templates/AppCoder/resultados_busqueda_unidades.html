@@ -1,0 +1,14 @@
+<h2>Resultados de búsqueda: "{{ termino_busqueda }}"</h2>
+
+{% if unidades %}
+    {% for unidad in unidades %}
+        <div>
+            <h3>{{ unidad.nombre }}</h3>
+            <p>Código: {{ unidad.modelo }}</p>
+            <p>Chasis: {{ unidad.chasis }}</p> 
+            
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No se encontraron unidades con el término "{{ termino_busqueda }}"</p>
+{% endif %}

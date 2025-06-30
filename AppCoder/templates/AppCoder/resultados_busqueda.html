@@ -1,0 +1,36 @@
+{% extends 'AppCoder/padre.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Resultados de Búsqueda</h2>
+    
+    {% if termino_busqueda %}
+        <p>Resultados para: <strong>{{ termino_busqueda }}</strong></p>
+    {% endif %}
+    
+    {% if clientes %}
+        <div class="row">
+            {% for cliente in clientes %}
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ cliente.nombre }} {{ cliente.apellido }}</h5>
+                            <!-- Agrega otros campos del cliente que tengas en tu modelo -->
+                            {% if cliente.email %}
+                                <p class="card-text">Email: {{ cliente.email }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <p>No se encontraron clientes con el nombre "{{ termino_busqueda }}".</p>
+        </div>
+    {% endif %}
+    
+    <a href="{% url 'buscar_clientes' %}" class="btn btn-secondary">Nueva búsqueda</a>
+    <a href="{% url 'inicio' %}" class="btn btn-primary">Volver al inicio</a>
+</div>
+{% endblock %}

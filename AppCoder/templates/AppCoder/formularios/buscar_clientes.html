@@ -1,0 +1,14 @@
+{% extends 'AppCoder/padre.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Buscar Clientes</h2>
+    <form method="GET" action="{% url 'buscar_clientes' %}">
+        <div class="mb-3">
+            <input type="text" name="nombre" placeholder="Ingrese nombre del cliente" 
+                   class="form-control" value="{{ request.GET.nombre }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+</div>
+{% endblock %}
