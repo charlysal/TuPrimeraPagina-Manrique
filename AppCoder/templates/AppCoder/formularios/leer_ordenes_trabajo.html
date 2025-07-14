@@ -1,0 +1,84 @@
+{% extends 'AppCoder/padre.html' %}
+{% block title %}Órdenes de Trabajo{% endblock %}
+
+{% block contenido %}
+<div class="container mt-5 mb-5">
+    <h2 class="mb-4 text-center">Órdenes de Trabajo</h2>
+
+    <div class="mb-3 text-end">
+        <a href="{% url 'form_orden_trabajo' %}" class="btn btn-success">+ Crear Nueva Orden</a>
+    </div>
+
+    {% if ordenes %}
+    <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Unidad</th>
+                <th>Fecha</th>
+                <th>Descripción</th>
+                <th>Accesorios Instalados</th>
+                <th>Instalador</th>
+                <th>Sucursal</th>
+                <th>Empleado que Entregó</th>
+                <th>¿Entregado?</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for orden in ordenes %}
+            <tr>
+                <td>{{ orden.id }}</td>
+                <td>{{ orden.unidad.modelo }} ({{ orden.unidad.chasis }})</td>
+                <td>{{ orden.fecha|date:"d/m/Y H:i" }}</td>
+                <td>{{ orden.descripcion }}</td>
+                <td>
+                    {% for accesorio in orden.accesorios_instalados.all %}
+                        <span class="badge bg-info text-dark me-1">{{ accesorio.nombre }}</span>
+                    {% empty %}
+                        <span class="text-muted">Sin accesorios</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% if orden.instalador %}
+                        {{ orden.instalador.nombre }} {{ orden.instalador.apellido }}
+                    {% else %}
+                        <em>Sin asignar</em>
+                    {% endif %}
+                </td>
+                <td>{{ orden.sucursal }}</td>
+                <td>{{ orden.nombre_empleado_entrego }}</td>
+                <td>
+                    {% if orden.confirmacion_entregado %}
+                        <span class="text-success fw-bold">Sí</span>
+                    {% else %}
+                        <span class="text-danger fw-bold">No</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'editar_orden_trabajo' orden.id %}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil-square"></i> Editar
+                        </a>
+                        <a href="{% url 'eliminar_orden_trabajo' orden.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar esta orden?');">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </a>
+                        {% if not orden.confirmacion_entregado %}
+                        <a href="{% url 'marcar_entregado' orden.id %}" class="btn btn-sm btn-outline-success">
+                            <i class="bi bi-check-circle"></i> Marcar como Entregado
+                        </a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert alert-warning text-center">
+        No hay órdenes de trabajo registradas.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

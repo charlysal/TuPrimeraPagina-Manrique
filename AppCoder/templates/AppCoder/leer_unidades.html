@@ -1,0 +1,79 @@
+{% extends 'AppCoder/padre.html' %}
+{% block title %}Lista de Unidades{% endblock %}
+
+{% block contenido %}
+<div class="container mt-5 mb-5">
+    <h2 class="mb-4 text-center">Lista de Unidades</h2>
+
+    <div class="mb-3 text-end">
+        <a href="{% url 'form_unidades' %}" class="btn btn-success">+ Crear Nueva Unidad</a>
+    </div>
+
+    {% if unidades %}
+    <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Modelo</th>
+                <th>Chasis</th>
+                <th>Cliente</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for unidad in unidades %}
+            <tr>
+                <td>{{ unidad.id }}</td>
+                <td>{{ unidad.modelo }}</td>
+                <td>{{ unidad.chasis }}</td>
+                <td>{{ unidad.cliente.nombre }} {{ unidad.cliente.apellido }}</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a href="{% url 'editar_unidad' unidad.id %}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil-square"></i> Editar
+                        </a>
+                        <a href="{% url 'eliminar_unidad' unidad.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de eliminar esta unidad?');">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </a>
+                    </div>
+                </td>
+            </tr>
+
+            {% if unidad.ordenes.exists %}
+            <tr>
+                <td colspan="5" class="bg-light text-start">
+                    <strong>Órdenes de Trabajo:</strong>
+                    <ul class="list-group mt-2">
+                        {% for orden in unidad.ordenes.all %}
+                        <li class="list-group-item">
+                            <div class="fw-bold text-primary">
+                                {{ orden.fecha|date:"d/m/Y H:i" }} – {{ orden.descripcion }}
+                            </div>
+                            <div class="mb-2 text-muted">
+                                Instalador: {{ orden.instalador }}
+                            </div>
+                            <div>
+                                {% for accesorio in orden.accesorios_instalados.all %}
+                                    <span class="badge bg-info text-dark me-1">{{ accesorio.nombre }}</span>
+                                {% empty %}
+                                    <span class="text-muted">Sin accesorios</span>
+                                {% endfor %}
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endif %}
+
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert alert-warning text-center">
+        No se encontraron unidades.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

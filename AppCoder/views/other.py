@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from .forms import OperarioFormulario, ClientesFormulario, UnidadesFormulario, EntregasFormulario
+from ..forms import OperarioFormulario, ClientesFormulario, UnidadesFormulario
 from django.shortcuts import render, redirect
 from django.shortcuts import render
-from .models import Clientes, Unidades
+from ..models import Clientes, Unidades
 from django.http import HttpResponse
 from django.db.models import Q 
 
@@ -18,8 +18,6 @@ def clientes(request):
 def unidades(request):
     return render(request, "AppCoder/unidades.html")
 
-def entregas(request):
-    return render(request, "AppCoder/entregas.html")
 
 def form_operario(request):
     if request.method == 'POST':
@@ -31,15 +29,15 @@ def form_operario(request):
         form = OperarioFormulario()
     return render(request, 'AppCoder/formularios/form_operario.html', {'form': form})
 
-def form_clientes(request):
-    if request.method == 'POST':
-        form = ClientesFormulario(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('inicio')
-    else:
-        form = ClientesFormulario()
-    return render(request, 'AppCoder/formularios/form_clientes.html', {'form': form})
+#def form_clientes(request):
+   # if request.method == 'POST':
+    #    form = ClientesFormulario(request.POST)
+     #   if form.is_valid():
+      #      form.save()
+       #     return redirect('inicio')
+   # else:
+    #    form = ClientesFormulario()
+  #  return render(request, 'AppCoder/formularios/form_clientes.html', {'form': form})
 
 def form_unidades(request):
     if request.method == 'POST':
@@ -51,15 +49,7 @@ def form_unidades(request):
         form = UnidadesFormulario()
     return render(request, 'AppCoder/formularios/form_unidades.html', {'form': form})
 
-def form_entregas(request):
-    if request.method == 'POST':
-        form = EntregasFormulario(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('inicio')
-    else:
-        form = EntregasFormulario()
-    return render(request, 'AppCoder/formularios/form_entregas.html', {'form': form})
+
 
 def buscar_clientes(request):
     termino = request.GET.get("nombre", "").strip()

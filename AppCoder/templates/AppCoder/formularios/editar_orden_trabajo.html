@@ -1,0 +1,22 @@
+{% extends 'AppCoder/padre.html' %}
+{% block title %}Editar Orden{% endblock %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Editar Orden de Trabajo</h2>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                    <a href="{% url 'ordenes_trabajo' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

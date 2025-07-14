@@ -1,0 +1,81 @@
+{% extends 'AppCoder/padre.html' %}
+{% load form_tags %}
+{% block title %}Nueva Orden de Trabajo{% endblock %}
+
+{% block contenido %}
+<div class="container mt-5 mb-5">
+    <h2 class="text-center mb-4">Nueva Orden de Trabajo</h2>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    {{ form.unidad.label_tag }}
+                    {{ form.unidad|add_class:"form-control" }}
+                    {% if form.unidad.errors %}
+                        <div class="text-danger">{{ form.unidad.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.instalador.label_tag }}
+                    {{ form.instalador|add_class:"form-control" }}
+                    {% if form.instalador.errors %}
+                        <div class="text-danger">{{ form.instalador.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.descripcion.label_tag }}
+                    {{ form.descripcion|add_class:"form-control" }}
+                    {% if form.descripcion.errors %}
+                        <div class="text-danger">{{ form.descripcion.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.accesorios_instalados.label_tag }}
+                    {{ form.accesorios_instalados|add_class:"form-control" }}
+                    {% if form.accesorios_instalados.errors %}
+                        <div class="text-danger">{{ form.accesorios_instalados.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Campos nuevos -->
+
+                <div class="mb-3">
+                    {{ form.sucursal.label_tag }}
+                    {{ form.sucursal|add_class:"form-control" }}
+                    {% if form.sucursal.errors %}
+                        <div class="text-danger">{{ form.sucursal.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.nombre_empleado_entrego.label_tag }}
+                    {{ form.nombre_empleado_entrego|add_class:"form-control" }}
+                    {% if form.nombre_empleado_entrego.errors %}
+                        <div class="text-danger">{{ form.nombre_empleado_entrego.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-check mb-3">
+                    {{ form.confirmacion_entregado }}
+                    {{ form.confirmacion_entregado.label_tag }}
+                    {% if form.confirmacion_entregado.errors %}
+                        <div class="text-danger">{{ form.confirmacion_entregado.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success">Guardar Orden</button>
+                    <a href="{% url 'inicio' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
