@@ -4,6 +4,8 @@ from AppCoder.forms import ClientesFormulario
 from AppCoder.models import Clientes
 from django.contrib import messages
 
+
+
 def eliminarClientes(request, id_cliente):
     cliente = get_object_or_404(Clientes, id=id_cliente)
 
@@ -60,4 +62,6 @@ def form_clientes(request):
     else:
         form = ClientesFormulario()
     return render(request, "AppCoder/formularios/form_clientes.html", {'form': form})
+
+
 

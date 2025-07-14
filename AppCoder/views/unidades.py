@@ -62,3 +62,4 @@ def eliminarUnidad(request, id_unidad):
     return render(request, "AppCoder/formularios/eliminar_unidad.html", {
         "unidad": unidad
     })
+

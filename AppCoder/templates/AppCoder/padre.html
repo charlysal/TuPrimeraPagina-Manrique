@@ -7,33 +7,40 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>{% block title %}App Coder{% endblock %} </title>
-        <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="{% static 'AppCoder/favicon.ico' %}"/>
-
-        <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" type="text/css" />
-        <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" />
-        <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'AppCoder/css/styles.css' %}" rel="stylesheet" />
     </head>
     <body>
         <!-- Navigation-->
-        <nav class="navbar navbar-light bg-light static-top">
-            <div class="container py-3">
-                <div class="d-flex justify-content-between flex-wrap align-items-center">
-                    <div class="btn-group mb-2">
-                        <a href="{% url 'inicio' %}" class="btn btn-outline-primary">Inicio</a>
-                        <a href="{% url 'leerClientes' %}" class="btn btn-outline-primary">Clientes</a>
-                        <a href="{% url 'form_unidades' %}" class="btn btn-outline-primary">Unidades</a>
-                    </div>
-                    <div class="btn-group mb-2">
-                        <a href="{% url 'ordenes_trabajo' %}" class="btn btn-outline-primary">Órdenes</a>
-                        <a href="{% url 'form_operario' %}" class="btn btn-outline-primary">Operario</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
+    <nav class="navbar navbar-light bg-light static-top">
+      <div class="container py-3 d-flex justify-content-between align-items-center flex-wrap">
+        <!-- Grupo de navegación -->
+        <div class="btn-group mb-2">
+            <a href="{% url 'inicio' %}" class="btn btn-outline-primary">Inicio</a>
+            <a href="{% url 'leerClientes' %}" class="btn btn-outline-primary">Clientes</a>
+            <a href="{% url 'form_unidades' %}" class="btn btn-outline-primary">Unidades</a>
+        </div>
+        <div class="btn-group mb-2">
+            <a href="{% url 'ordenes_trabajo' %}" class="btn btn-outline-primary">Órdenes</a>
+            <a href="{% url 'form_operario' %}" class="btn btn-outline-primary">Operario</a>
+        </div>
+
+        <!-- Usuario logueado o login -->
+        <div class="mb-2 d-flex align-items-center">
+            {% if user.is_authenticated %}
+                <span class="me-3 text-muted">👤 {{ user.username }}</span>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Cerrar sesión</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-sm btn-outline-success">Iniciar sesión</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
 
         <main>
             {% if messages %}
@@ -84,11 +91,8 @@
             </div>
         </footer>
 
-        <!-- Bootstrap core JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS -->
         <script src="{% static 'AppCoder/js/scripts.js' %}"></script>
-        <!-- SB Forms JS (si usas formularios de SB) -->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     </body>
 </html>

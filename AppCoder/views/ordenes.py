@@ -3,6 +3,7 @@ from AppCoder.forms import OrdenDeTrabajoFormulario
 from django.contrib import messages
 from AppCoder.models import OrdenDeTrabajo
 
+
 def form_orden_trabajo(request):
     if request.method == 'POST':
         form = OrdenDeTrabajoFormulario(request.POST)
