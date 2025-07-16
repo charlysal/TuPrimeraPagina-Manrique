@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Operario(models.Model):
     nombre = models.CharField(max_length=100)
@@ -26,11 +26,22 @@ class Unidades(models.Model):
         return f"{self.modelo} ({self.chasis}) - Cliente: {self.cliente.nombre} {self.cliente.apellido}"
 
 
+
+
+
+# --- Accesorio antes de OrdenDeTrabajo ---
+class Accesorio(models.Model):
+    nombre = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.nombre
+
+
 class OrdenDeTrabajo(models.Model):
     unidad = models.ForeignKey(Unidades, related_name='ordenes', on_delete=models.CASCADE)
     fecha = models.DateTimeField(auto_now_add=True)
     descripcion = models.TextField()
-    accesorios_instalados = models.TextField()
+    accesorios_instalados = models.TextField(blank=True, help_text="Accesorios instalados (texto libre)")
     sucursal = models.CharField(max_length=100, default="sin valor asignado")
     nombre_empleado_entrego = models.CharField(max_length=100, default="sin valor asignado")
     confirmacion_entregado = models.BooleanField(default=False)
@@ -40,12 +51,19 @@ class OrdenDeTrabajo(models.Model):
         return f"Orden #{self.id} - {self.unidad}"
 
 
-
-class Accesorio(models.Model):
-    nombre = models.CharField(max_length=50)
+class PersonalAutorizado(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    cargo = models.CharField(max_length=100, help_text="Cargo o rol del personal autorizado")
+    activo = models.BooleanField(default=True, help_text="¿El personal está activo?")
+    telefono = models.CharField(max_length=30, blank=True, null=True, help_text="Teléfono de contacto")
+    observaciones = models.TextField(blank=True, null=True, help_text="Notas internas")
 
     def __str__(self):
-        return self.nombre
+        return f"{self.user.username} ({self.cargo})"
 
+class Perfil(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    imagen = models.ImageField(upload_to='perfiles/', blank=True, null=True)
 
-
+    def __str__(self):
+        return f"Perfil de {self.user.username}"

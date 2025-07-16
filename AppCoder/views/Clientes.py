@@ -3,9 +3,9 @@ from django.db.models import Q
 from AppCoder.forms import ClientesFormulario
 from AppCoder.models import Clientes
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
-
-
+@login_required
 def eliminarClientes(request, id_cliente):
     cliente = get_object_or_404(Clientes, id=id_cliente)
 
@@ -16,7 +16,7 @@ def eliminarClientes(request, id_cliente):
 
     return render(request, "AppCoder/formularios/eliminarclientes.html", {"cliente": cliente})
 
-
+@login_required
 def leerClientes(request):
     """Leer todos los clientes"""
     clientes = Clientes.objects.all().order_by('-id')
@@ -25,7 +25,13 @@ def leerClientes(request):
     return render(request, "AppCoder/formularios/leerclientes.html", {"clientes": clientes})
 
 
+@login_required
+def detalleCliente(request, id_cliente):
+    cliente = get_object_or_404(Clientes, id=id_cliente)
+    return render(request, "AppCoder/formularios/detalle_cliente.html", {"cliente": cliente})
 
+
+@login_required
 def editarClientes(request, id_cliente):
     cliente = get_object_or_404(Clientes, id=id_cliente)
 
@@ -51,6 +57,7 @@ def editarClientes(request, id_cliente):
     return render(request, "AppCoder/formularios/editarClientes.html", 
                   {"miFormulario": miFormulario, "cliente_id": cliente.id})
 
+@login_required
 def form_clientes(request):
     """Formulario para crear nuevos clientes"""
     if request.method == 'POST':

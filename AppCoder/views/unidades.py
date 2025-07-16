@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect , get_object_or_404
 from AppCoder.forms import UnidadesFormulario
 from django.contrib import messages
 from AppCoder.models import Unidades 
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def leerUnidades(request):
     unidades = Unidades.objects.all().order_by('-id').prefetch_related('ordenes')
     unidades_con_ordenes = {u.id: u.ordenes.all() for u in unidades if u.ordenes.exists()}
@@ -12,7 +13,8 @@ def leerUnidades(request):
         'unidades_con_ordenes': unidades_con_ordenes,
     }
     return render(request, 'AppCoder/leer_unidades.html', contexto)
-    
+
+@login_required   
 def form_unidades(request):
     if request.method == 'POST':
         form = UnidadesFormulario(request.POST)
@@ -33,7 +35,7 @@ def form_unidades(request):
 
 
 
-
+@login_required
 def editarUnidad(request, id_unidad):
     unidad = get_object_or_404(Unidades, id=id_unidad)
 
@@ -51,6 +53,7 @@ def editarUnidad(request, id_unidad):
         "unidad": unidad
     })
 
+@login_required
 def eliminarUnidad(request, id_unidad):
     unidad = get_object_or_404(Unidades, id=id_unidad)
 

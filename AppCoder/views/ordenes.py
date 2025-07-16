@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect , get_object_or_404
 from AppCoder.forms import OrdenDeTrabajoFormulario
 from django.contrib import messages
 from AppCoder.models import OrdenDeTrabajo
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def form_orden_trabajo(request):
     if request.method == 'POST':
         form = OrdenDeTrabajoFormulario(request.POST)
@@ -16,10 +18,12 @@ def form_orden_trabajo(request):
     
     return render(request, "AppCoder/formularios/form_orden_trabajo.html", {"form": form})
 
+@login_required
 def leer_ordenes_trabajo(request):
     ordenes = OrdenDeTrabajo.objects.all().order_by('-id')  # orden descendente (más recientes primero)
     return render(request, "AppCoder/formularios/leer_ordenes_trabajo.html", {"ordenes": ordenes})
 
+@login_required
 def editar_orden_trabajo(request, id_orden):
     orden = get_object_or_404(OrdenDeTrabajo, id=id_orden)
 
@@ -36,6 +40,7 @@ def editar_orden_trabajo(request, id_orden):
 
 
 # ELIMINAR
+@login_required
 def eliminar_orden_trabajo(request, id_orden):
     orden = get_object_or_404(OrdenDeTrabajo, id=id_orden)
 
@@ -46,7 +51,7 @@ def eliminar_orden_trabajo(request, id_orden):
 
     return render(request, "AppCoder/formularios/eliminar_orden_trabajo.html", {"orden": orden})
 
-
+@login_required
 def marcar_entregado(request, orden_id):
     orden = get_object_or_404(OrdenDeTrabajo, id=orden_id)
     orden.confirmacion_entregado = True

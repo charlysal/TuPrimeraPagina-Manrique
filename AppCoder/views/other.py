@@ -1,4 +1,8 @@
 from django.shortcuts import render
+
+def about_me(request):
+    return render(request, 'AppCoder/aboutme.html')
+from django.shortcuts import render
 from ..forms import OperarioFormulario, ClientesFormulario, UnidadesFormulario
 from django.shortcuts import render, redirect
 from django.shortcuts import render

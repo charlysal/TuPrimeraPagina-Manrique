@@ -1,0 +1,15 @@
+{% extends 'AppCoder/base.html' %}
+{% block contenido %}
+<h2>Editar Personal Autorizado</h2>
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+</form>
+<a href="{% url 'listar_personal' %}">Volver a la lista</a>
+{% endblock %}

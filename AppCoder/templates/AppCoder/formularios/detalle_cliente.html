@@ -1,0 +1,24 @@
+{% extends 'AppCoder/padre.html' %}
+{% block title %}Detalle de Cliente{% endblock %}
+{% block contenido %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4 class="card-title mb-4 text-center">Detalle del Cliente</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>ID:</strong> {{ cliente.id }}</li>
+                        <li class="list-group-item"><strong>Nombre:</strong> {{ cliente.nombre }}</li>
+                        <li class="list-group-item"><strong>Apellido:</strong> {{ cliente.apellido }}</li>
+                        <li class="list-group-item"><strong>Email:</strong> {{ cliente.email }}</li>
+                    </ul>
+                    <div class="mt-4 text-center">
+                        <a href="{% url 'leerClientes' %}" class="btn btn-secondary">Volver a la lista</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

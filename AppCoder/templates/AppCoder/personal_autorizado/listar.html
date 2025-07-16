@@ -1,0 +1,18 @@
+{% extends 'AppCoder/base.html' %}
+{% block contenido %}
+<h2>Personal Autorizado</h2>
+<a href="{% url 'crear_personal' %}" class="btn btn-success mb-3">Agregar Personal</a>
+<ul>
+    {% for persona in personal %}
+        <li>
+            {{ persona.user.username }} - {{ persona.cargo }} - {{ persona.telefono }}
+            {% if persona.activo %}<span class="badge bg-success">Activo</span>{% else %}<span class="badge bg-danger">Inactivo</span>{% endif %}
+            | <a href="{% url 'editar_personal' persona.id %}">Editar</a>
+            | <a href="{% url 'eliminar_personal' persona.id %}">Eliminar</a>
+        </li>
+    {% empty %}
+        <li>No hay personal autorizado registrado.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'inicio' %}">Volver al inicio</a>
+{% endblock %}
