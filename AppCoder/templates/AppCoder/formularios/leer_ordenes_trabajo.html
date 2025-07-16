@@ -29,15 +29,17 @@
             {% for orden in ordenes %}
             <tr>
                 <td>{{ orden.id }}</td>
-                <td>{{ orden.unidad.modelo }} ({{ orden.unidad.chasis }})</td>
+                <td>{{ orden.unidad.modelo }} ({{ orden.unidad.chasis }})<br>
+                    <span class="text-muted small">Cliente: {{ orden.unidad.cliente.nombre }} {{ orden.unidad.cliente.apellido }}</span>
+                </td>
                 <td>{{ orden.fecha|date:"d/m/Y H:i" }}</td>
                 <td>{{ orden.descripcion }}</td>
                 <td>
-                    {% for accesorio in orden.accesorios_instalados.all %}
-                        <span class="badge bg-info text-dark me-1">{{ accesorio.nombre }}</span>
-                    {% empty %}
+                    {% if orden.accesorios_instalados %}
+                        {{ orden.accesorios_instalados }}
+                    {% else %}
                         <span class="text-muted">Sin accesorios</span>
-                    {% endfor %}
+                    {% endif %}
                 </td>
                 <td>
                     {% if orden.instalador %}
