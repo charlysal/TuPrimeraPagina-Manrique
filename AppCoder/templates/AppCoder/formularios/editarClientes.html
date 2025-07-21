@@ -19,16 +19,45 @@
                 <div class="card-body">
                     <h4 class="card-title text-center mb-4">Editar Cliente N° {{ cliente_id }}</h4>
 
-                    <form method="POST" action="">
+                    <form method="POST" action="" id="editarClienteForm">
                         {% csrf_token %}
                         <table class="table table-borderless">
                             {{ miFormulario.as_table }}
                         </table>
                         <div class="d-grid gap-2">
-                            <input type="submit" class="btn btn-primary" value="Guardar Cambios">
+                            <button type="button" class="btn btn-primary" onclick="mostrarConfirmacion()">Guardar Cambios</button>
                             <a href="{% url 'leerClientes' %}" class="btn btn-secondary">Cancelar</a>
                         </div>
                     </form>
+
+                    <!-- Modal de confirmación -->
+                    <div class="modal fade" id="confirmarModal" tabindex="-1" aria-labelledby="confirmarModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="confirmarModalLabel">Confirmar cambios</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                          </div>
+                          <div class="modal-body">
+                            ¿Desea guardar los cambios?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Descartar</button>
+                            <button type="button" class="btn btn-primary" onclick="enviarFormulario()">Guardar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <script>
+                    function mostrarConfirmacion() {
+                        var modal = new bootstrap.Modal(document.getElementById('confirmarModal'));
+                        modal.show();
+                    }
+                    function enviarFormulario() {
+                        document.getElementById('editarClienteForm').submit();
+                    }
+                    </script>
                 </div>
             </div>
 

@@ -7,11 +7,40 @@
         <h4>¿Estás seguro de que querés eliminar esta orden?</h4>
         <p><strong>{{ orden.descripcion }}</strong></p>
 
-        <form method="POST">
+        <form method="POST" id="eliminarOrdenForm">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+            <button type="button" class="btn btn-danger" onclick="mostrarConfirmacion()">Eliminar</button>
             <a href="{% url 'ordenes_trabajo' %}" class="btn btn-secondary">Cancelar</a>
         </form>
+
+        <!-- Modal de confirmación -->
+        <div class="modal fade" id="confirmarModal" tabindex="-1" aria-labelledby="confirmarModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="confirmarModalLabel">Confirmar eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body">
+                ¿Confirma la eliminación de esta orden de trabajo?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" onclick="enviarFormulario()">Sí, eliminar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script>
+        function mostrarConfirmacion() {
+            var modal = new bootstrap.Modal(document.getElementById('confirmarModal'));
+            modal.show();
+        }
+        function enviarFormulario() {
+            document.getElementById('eliminarOrdenForm').submit();
+        }
+        </script>
     </div>
 </div>
 {% endblock %}

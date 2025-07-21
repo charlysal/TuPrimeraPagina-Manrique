@@ -7,16 +7,45 @@
 
     <div class="card shadow">
         <div class="card-body">
-            <form method="POST">
+            <form method="POST" id="editarUnidadForm">
                 {% csrf_token %}
                 <table class="table table-borderless">
                     {{ form.as_table }}
                 </table>
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn btn-primary" onclick="mostrarConfirmacion()">Guardar Cambios</button>
                     <a href="{% url 'unidades' %}" class="btn btn-secondary">Cancelar</a>
                 </div>
             </form>
+
+            <!-- Modal de confirmación -->
+            <div class="modal fade" id="confirmarModal" tabindex="-1" aria-labelledby="confirmarModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="confirmarModalLabel">Confirmar cambios</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                  </div>
+                  <div class="modal-body">
+                    ¿Desea guardar los cambios?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Descartar</button>
+                    <button type="button" class="btn btn-primary" onclick="enviarFormulario()">Guardar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <script>
+            function mostrarConfirmacion() {
+                var modal = new bootstrap.Modal(document.getElementById('confirmarModal'));
+                modal.show();
+            }
+            function enviarFormulario() {
+                document.getElementById('editarUnidadForm').submit();
+            }
+            </script>
         </div>
     </div>
 </div>

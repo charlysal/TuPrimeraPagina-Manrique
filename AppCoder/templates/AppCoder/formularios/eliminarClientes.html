@@ -65,13 +65,41 @@
                             </a>
                         </div>
                         <div class="col-6">
-                            <form method="POST" action="{% url 'eliminarClientes' cliente.id %}">
+                            <form method="POST" action="{% url 'eliminarClientes' cliente.id %}" id="eliminarClienteForm">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-danger w-100">
+                                <button type="button" class="btn btn-danger w-100" onclick="mostrarConfirmacion()">
                                     <i class="bi bi-trash"></i> Eliminar Cliente
                                 </button>
                             </form>
                         </div>
+<!-- Modal de confirmación -->
+<div class="modal fade" id="confirmarModal" tabindex="-1" aria-labelledby="confirmarModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmarModalLabel">Confirmar eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        ¿Confirma la eliminación de este cliente?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-danger" onclick="enviarFormulario()">Sí, eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function mostrarConfirmacion() {
+    var modal = new bootstrap.Modal(document.getElementById('confirmarModal'));
+    modal.show();
+}
+function enviarFormulario() {
+    document.getElementById('eliminarClienteForm').submit();
+}
+</script>
                     </div>
                 </div>
             </div>
